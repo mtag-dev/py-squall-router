@@ -12,34 +12,22 @@ dependencies = [
 ]
 
 [[package]]
-name = "base64"
-version = "0.13.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "904dfeac50f3cdaba28fc6f57fdcddb75f49ed61346676a78c4ffe55877802fd"
-
-[[package]]
 name = "bitflags"
 version = "1.3.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "bef38d45163c2f1dde094a7dfd33ccf595c92905c8f8f4fdc18d06fb1037718a"
 
 [[package]]
+name = "bytecount"
+version = "0.6.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "72feb31ffc86498dacdbd0fcebb56138e7177a8cc5cea4516031d15ae85a742e"
+
+[[package]]
 name = "cfg-if"
 version = "1.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
-
-[[package]]
-name = "embed-doc-image"
-version = "0.1.4"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "af36f591236d9d822425cb6896595658fa558fcebf5ee8accac1d4b92c47166e"
-dependencies = [
- "base64",
- "proc-macro2",
- "quote",
- "syn",
-]
 
 [[package]]
 name = "firestorm"
@@ -166,14 +154,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "py-squall-router"
-version = "0.1.0"
-dependencies = [
- "pyo3",
- "squall-router",
-]
-
-[[package]]
 name = "pyo3"
 version = "0.15.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -276,11 +256,19 @@ checksum = "1ecab6c735a6bb4139c0caafd0cc3635748bbb3acf4550e8138122099251f309"
 
 [[package]]
 name = "squall-router"
-version = "0.1.0-beta.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "21a53adedb8fe91d49c155cf95b643deab330ce932e609d6b4bf537f9842c376"
+version = "0.1.0"
 dependencies = [
- "embed-doc-image",
+ "pyo3",
+ "squall-router 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "squall-router"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e70550815ab0d5f7c030862c527d3fe688c1ab13eb903f3ce9fcf0fcb56c8133"
+dependencies = [
+ "bytecount",
  "firestorm",
  "regex",
  "rustc-hash",

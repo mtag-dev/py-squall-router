@@ -17,46 +17,40 @@ impl Router {
         }
     }
 
-    pub fn add_http_route(&mut self, method: String, path: String, handler: i32) -> PyResult<()> {
-        Ok(self.router.add_http_route(method, path, handler))
+    pub fn add_route(&mut self, method: String, path: String, handler: i32) -> PyResult<()> {
+        if let Err(e) = self.router.add_route(method, path, handler) {
+            return Err(PyValueError::new_err(e.to_string()))
+        }
+        Ok(())
     }
 
-    pub fn add_http_location(&mut self, method: String, path: String, handler: i32) -> PyResult<()> {
-        Ok(self.router.add_http_location(method, path, handler))
+    pub fn add_location(&mut self, method: String, path: String, handler: i32) -> PyResult<()> {
+        Ok(self.router.add_location(method, path, handler))
     }
 
-    pub fn get_http_handler<'a>(
+    pub fn resolve<'a>(
         &'a self,
         method: &str,
         path: &'a str,
-    ) -> PyResult<Option<(i32, Vec<&str>, Vec<&'a str>)>> {
-        if let Some(result) = self.router.get_http_handler(method, path) {
-            return Ok(Some((result.0, result.1, result.2)));
+    ) -> PyResult<Option<(i32, Vec<(&str, &'a str)>)>> {
+        if let Some(result) = self.router.resolve(method, path) {
+            return Ok(Some(result));
         }
         Ok(None)
 
     }
 
-    // pub fn add_validator(&mut self, validator: String, regex: String) -> PyResult<()> {
-    //     match self.router.path_parser.add_validator(validator, regex) {
-    //         Ok(v) => Ok(v),
-    //         Err(e) => Err(PyValueError::new_err(e.to_string())),
-    //     }
-    // }
-
-    pub fn set_ws_handler(&self, _path: String) -> PyResult<()> {
-        Ok(())
-    }
-
-
-    pub fn get_ws_handler(&self, handler: PyObject) -> PyResult<PyObject> {
-        Ok(handler)
+    pub fn add_validator(&mut self, validator: String, regex: String) -> PyResult<()> {
+        match self.router.add_validator(validator, regex) {
+            Ok(v) => Ok(v),
+            Err(e) => Err(PyValueError::new_err(e.to_string())),
+        }
     }
 }
 
 /// A Python module implemented in Rust.
 #[pymodule]
-fn squall_core(_py: Python, m: &PyModule) -> PyResult<()> {
+fn squall_router(_py: Python, m: &PyModule) -> PyResult<()> {
     m.add_class::<Router>()?;
     Ok(())
 }

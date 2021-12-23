@@ -17,15 +17,15 @@ impl Router {
         }
     }
 
-    pub fn add_route(&mut self, method: String, path: String, handler: i32) -> PyResult<()> {
-        if let Err(e) = self.router.add_route(method, path, handler) {
+    pub fn add_route(&mut self, method: String, path: String, handler_id: i32) -> PyResult<()> {
+        if let Err(e) = self.router.add_route(method, path, handler_id) {
             return Err(PyValueError::new_err(e.to_string()))
         }
         Ok(())
     }
 
-    pub fn add_location(&mut self, method: String, path: String, handler: i32) -> PyResult<()> {
-        Ok(self.router.add_location(method, path, handler))
+    pub fn add_location(&mut self, method: String, path: String, handler_id: i32) -> PyResult<()> {
+        Ok(self.router.add_location(method, path, handler_id))
     }
 
     pub fn resolve<'a>(
@@ -40,8 +40,8 @@ impl Router {
 
     }
 
-    pub fn add_validator(&mut self, validator: String, regex: String) -> PyResult<()> {
-        match self.router.add_validator(validator, regex) {
+    pub fn add_validator(&mut self, alias: String, regex: String) -> PyResult<()> {
+        match self.router.add_validator(alias, regex) {
             Ok(v) => Ok(v),
             Err(e) => Err(PyValueError::new_err(e.to_string())),
         }

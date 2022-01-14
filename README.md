@@ -44,3 +44,31 @@ assert router.resolve("GET", f"/event/123432") is None
 
 assert router.resolve("GET", f"/static/css/style.css") == (3, [])
 ```
+
+### Ignore trailing slashes mode
+
+`set_ignore_trailing_slashes` - Allows to put the router in a mode where all trailing slashes will be ignored on both, route registration and resolving stages
+
+```python
+from squall_router import Router
+
+router = Router()
+router.set_ignore_trailing_slashes()
+router.add_validator("int", r"^[0-9]+$")
+router.add_validator("uuid", r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+
+router.add_route("GET", "/repo/{repo_name}/", 0)
+router.add_route("GET", "/user/{user_id:int}/", 1)
+router.add_route("GET", "/event/{event_id:uuid}", 2)
+router.add_location("GET", "/static", 3)
+
+assert router.resolve("GET", "/repo/squall") == (0, [("repo_name", "squall")])
+assert router.resolve("GET", "/user/123") == (1, [("user_id", "123")])
+assert router.resolve("GET", "/user/user") is None
+
+event_id = "6d1a7b12-f2de-4ba7-b3c5-a4af3cab757d"
+assert router.resolve("GET", f"/event/{event_id}/") == (2, [("event_id", event_id)])
+assert router.resolve("GET", f"/event/123432/") is None
+
+assert router.resolve("GET", f"/static/css/style.css") == (3, [])
+```

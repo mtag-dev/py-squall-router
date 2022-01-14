@@ -12,14 +12,17 @@ pub struct Router {
 impl Router {
     #[new]
     fn new() -> Self {
-        Router {
-            router: SquallRouter::new(),
-        }
+        Router { router: SquallRouter::new() }
+    }
+
+    pub fn set_ignore_trailing_slashes(&mut self) -> PyResult<()> {
+        self.router.set_ignore_trailing_slashes();
+        Ok(())
     }
 
     pub fn add_route(&mut self, method: String, path: String, handler_id: i32) -> PyResult<()> {
         if let Err(e) = self.router.add_route(method, path, handler_id) {
-            return Err(PyValueError::new_err(e.to_string()))
+            return Err(PyValueError::new_err(e.to_string()));
         }
         Ok(())
     }
@@ -37,7 +40,6 @@ impl Router {
             return Ok(Some(result));
         }
         Ok(None)
-
     }
 
     pub fn add_validator(&mut self, alias: String, regex: String) -> PyResult<()> {

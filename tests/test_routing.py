@@ -210,3 +210,27 @@ def test_pass_string_to_int_validated_fields(router, method, path, expected_hand
     not_applicable_params = {k: "non_int" for k in expected_params}
     request_path = path.replace(":int", "").replace(":uuid", "").format(**not_applicable_params)
     assert router.resolve("POST", request_path) is None
+
+
+def test_ignore_trailing_slashes_disabled():
+    r = Router()
+
+    r.add_route("GET", "/some/path/", 0)
+    r.add_route("GET", "/some/path", 1)
+
+    assert r.resolve("GET", "/some/path/") == (0, [])
+    assert r.resolve("GET", "/some/path") == (1, [])
+
+
+def test_ignore_trailing_slashes_enabled():
+    r = Router()
+    r.set_ignore_trailing_slashes()
+
+    r.add_route("GET", "/some/path/", 0)
+    r.add_route("GET", "/some/path2", 1)
+
+    assert r.resolve("GET", "/some/path/") == (0, [])
+    assert r.resolve("GET", "/some/path") == (0, [])
+
+    assert r.resolve("GET", "/some/path2/") == (1, [])
+    assert r.resolve("GET", "/some/path2") == (1, [])

@@ -256,17 +256,17 @@ checksum = "1ecab6c735a6bb4139c0caafd0cc3635748bbb3acf4550e8138122099251f309"
 
 [[package]]
 name = "squall-router"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "pyo3",
- "squall-router 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "squall-router 0.2.1",
 ]
 
 [[package]]
 name = "squall-router"
-version = "0.1.0"
+version = "0.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e70550815ab0d5f7c030862c527d3fe688c1ab13eb903f3ce9fcf0fcb56c8133"
+checksum = "5095210e0fce830a00090c833f3fc3c905d62497daacf8ec8741caf9e68df066"
 dependencies = [
  "bytecount",
  "firestorm",

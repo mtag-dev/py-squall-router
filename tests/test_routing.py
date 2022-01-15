@@ -217,9 +217,11 @@ def test_ignore_trailing_slashes_disabled():
 
     r.add_route("GET", "/some/path/", 0)
     r.add_route("GET", "/some/path", 1)
+    r.add_route("GET", "/", 2)
 
     assert r.resolve("GET", "/some/path/") == (0, [])
     assert r.resolve("GET", "/some/path") == (1, [])
+    assert r.resolve("GET", "/") == (2, [])
 
 
 def test_ignore_trailing_slashes_enabled():
@@ -228,9 +230,12 @@ def test_ignore_trailing_slashes_enabled():
 
     r.add_route("GET", "/some/path/", 0)
     r.add_route("GET", "/some/path2", 1)
+    r.add_route("GET", "/", 2)
 
     assert r.resolve("GET", "/some/path/") == (0, [])
     assert r.resolve("GET", "/some/path") == (0, [])
 
     assert r.resolve("GET", "/some/path2/") == (1, [])
     assert r.resolve("GET", "/some/path2") == (1, [])
+
+    assert r.resolve("GET", "/") == (2, [])
